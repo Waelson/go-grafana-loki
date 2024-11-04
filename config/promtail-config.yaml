@@ -26,3 +26,13 @@ scrape_configs:
         target_label: 'logstream'
       - source_labels: ['__meta_docker_container_label_logging_jobname']
         target_label: 'job'
+
+    # Adicionando pipeline_stages para extrair labels dos logs
+    pipeline_stages:
+      - regex:
+          expression: 'app=(?P<app>\w+) level=(?P<level>\w+) message="(?P<message>.*)"'
+      - labels:
+          app:
+            level
+      - output:
+          source: message

@@ -14,13 +14,13 @@ func NewController() *Controller {
 
 func (c *Controller) Home(w http.ResponseWriter, r *http.Request) {
 	msg := "Home route accessed"
-	log.Println(msg) // Log para stdout
+	log.Printf("app=%s level=%s message=\"%s\"", "golang-app", "info", msg)
 	w.Write([]byte(msg))
 }
 
 func (c *Controller) Health(w http.ResponseWriter, r *http.Request) {
 	msg := "Health route accessed"
-	log.Println(msg) // Log para stdout
+	log.Printf("app=%s level=%s message=\"%s\"", "golang-app", "info", msg)
 	w.Write([]byte(msg))
 }
 
