@@ -5,6 +5,9 @@ server:
   log_level: info
   grpc_listen_port: 9095
 
+common:
+  path_prefix: /loki  # Define um diretório comum para o compactor e outros componentes
+
 ingester:
   lifecycler:
     ring:
@@ -13,7 +16,6 @@ ingester:
       replication_factor: 1
   chunk_idle_period: 15m
   chunk_retain_period: 30s
-  max_transfer_retries: 0
 
 schema_config:
   configs:
@@ -28,19 +30,20 @@ schema_config:
 storage_config:
   boltdb_shipper:
     active_index_directory: /loki/index
-    cache_location: /loki/boltdb-cache
-    shared_store: filesystem
+    cache_location: /loki/boltdb-cache  # Cache location for boltdb-shipper
   filesystem:
-    directory: /loki/chunks
+    directory: /loki/chunks  # Directory for storing chunks
 
 limits_config:
-  enforce_metric_name: false
   reject_old_samples: true
   reject_old_samples_max_age: 168h
+  allow_structured_metadata: false  # Desativa metadados estruturados para evitar o erro do schema
 
-chunk_store_config:
-  max_look_back_period: 0
+chunk_store_config: {}
 
 table_manager:
   retention_deletes_enabled: true
   retention_period: 168h
+
+compactor:
+  working_directory: /loki/compactor  # Define um diretório de trabalho para o compactor

@@ -1,7 +1,11 @@
 version: '3.8'
 
 services:
-  app:
+  app1:
+    container_name: app1
+    labels:
+      logging: "promtail"
+      logging_jobname: "containerlogs"
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,31 +13,50 @@ services:
       - "8080:8080"
     depends_on:
       - promtail
+    networks:
+      - app
 
-  loki:
-    image: grafana/loki:2.7.3
-    ports:
-      - "3100:3100"
-    command: -config.file=/etc/loki/local-config.yaml
-    volumes:
-      - ./loki-config.yaml:/etc/loki/local-config.yaml
-
-  promtail:
-    image: grafana/promtail:2.7.3
-    volumes:
-      - /var/log:/var/log
-      - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml
-    command: -config.file=/etc/promtail/promtail-config.yaml
-    depends_on:
-      - loki
 
   grafana:
-    image: grafana/grafana:9.5.2
+    image: grafana/grafana:latest
     ports:
-      - "3000:3000"
+      - 3000:3000
+    volumes:
+      - ./config/grafana-provisioning/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    networks:
+      - app
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml -config.expand-env=true
+    volumes:
+      - ./config/loki-config.yaml:/etc/loki/local-config.yaml
+      - ./config/loki-data/index:/loki/index
+      - ./config/loki-data/chunks:/loki/chunks
+    networks:
+      - app
+
+  promtail:
+    image:  grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - ./config/promtail-config.yaml:/etc/promtail/docker-config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      -config.expand-env=true
+      -config.file=/etc/promtail/docker-config.yaml
     depends_on:
       - loki
-    volumes:
-      - ./grafana-provisioning:/etc/grafana/provisioning
+    networks:
+      - app
+
+networks:
+  app:
+    name: app
