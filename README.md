@@ -26,13 +26,13 @@ necessidade de inicializar o servidor. Para instalar o Promtail localmente, util
 brew install promtail
 ```
 
-Para fins de teste, insira logs no arquivo `config/log.txt e execute o comando abaixo para validar o formato dos logs:
+Para fins de teste, insira logs no arquivo `config/log.txt` e execute o comando abaixo para validar o formato dos logs:
 
 ```bash
 cat log.txt | promtail --config.file ./promtail-config.yaml --stdin --dry-run --inspect
 ```
 
-Este comando lê o conteúdo de `log.txt e executa o Promtail em modo de teste (--dry-run), exibindo informações detalhadas sobre o processamento dos logs sem enviá-los ao Loki. Assim, você pode inspecionar e ajustar o formato dos logs antes de enviá-los para produção.
+Este comando lê o conteúdo de `log.txt` e executa o Promtail em modo de teste (--dry-run), exibindo informações detalhadas sobre o processamento dos logs sem enviá-los ao Loki. Assim, você pode inspecionar e ajustar o formato dos logs antes de enviá-los para produção.
 
 #### Explicação
 - **`--stdin`**: Lê a entrada diretamente do stdin em vez de um arquivo.
