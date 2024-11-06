@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  app1:
-    container_name: app1
+  application:
+    container_name: go-application
     labels:
-      logging: "promtail"
-      logging_jobname: "containerlogs"
+      logging: "application"
+      logging_jobname: "container_logs"
     build:
       context: .
       dockerfile: Dockerfile
@@ -45,6 +45,8 @@ services:
   promtail:
     image:  grafana/promtail:latest
     container_name: promtail
+    ports:
+      - "9080:9080"
     volumes:
       - ./config/promtail-config.yaml:/etc/promtail/docker-config.yaml
       - /var/lib/docker/containers:/var/lib/docker/containers:ro

@@ -1,5 +1,3 @@
-# https://grafana.com/docs/loki/latest/clients/promtail/configuration/
-# https://docs.docker.com/engine/api/v1.41/#operation/ContainerList
 server:
   http_listen_port: 9080
   grpc_listen_port: 0
@@ -17,7 +15,7 @@ scrape_configs:
         refresh_interval: 5s
         filters:
           - name: label
-            values: ["logging=promtail"]
+            values: ["logging=application"]
     relabel_configs:
       - source_labels: ['__meta_docker_container_name']
         regex: '/(.*)'
@@ -26,13 +24,26 @@ scrape_configs:
         target_label: 'logstream'
       - source_labels: ['__meta_docker_container_label_logging_jobname']
         target_label: 'job'
+      - source_labels: ['__meta_docker_network_ip']
+        target_label: 'ip'
 
-    # Adicionando pipeline_stages para extrair labels dos logs
     pipeline_stages:
-      - regex:
-          expression: 'app=(?P<app>\w+) level=(?P<level>\w+) message="(?P<message>.*)"'
+      - json:
+          expressions:
+            message:    message
+            level:    level
+            thread: thread
       - labels:
-          app:
-            level
+          thread:
+          level:
+
+      - template:
+          source: new_key
+          template: '[level={{ .level }} threadName={{ .thread }}] > {{ .message }}'
       - output:
-          source: message
+          source: new_key
+
+
+
+
+
