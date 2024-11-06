@@ -2,6 +2,13 @@
 
 
 ### Solução
+A proposta deste projeto é desenvolver uma solução abrangente, tanto em nível de aplicação quanto em nível de infraestrutura, que implemente as melhores práticas de observabilidade (o11y) no que diz respeito ao pilar de Logs.
+
+Essa solução é composta pela biblioteca de logs `Zap`, do Uber, além do `Promtail`, `Grafana Loki` e `Grafana`, formando um conjunto integrado para coleta, processamento, armazenamento e visualização de logs.
+
+#### 1. Aplicação
+
+#### 1. Infraestrutura
 
 ### Arquitetura
 ![Architecture](documentation/images/architecture.png)
@@ -12,11 +19,9 @@
 ### Executando
 A aplicação está configurada para ser executada com Docker Compose. Para iniciá-la, entre no diretório raiz da aplicação e execute o seguinte comando:
 
-`
+```bash
 docker-compose up --build
-`
-
-### Simulação
+```
 
 ### Promtail
 O Promtail permite realizar experimentos, validações e alterações nos logs enviados para o Grafana Loki sem a 
