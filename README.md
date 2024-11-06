@@ -6,12 +6,28 @@ A proposta deste projeto é desenvolver uma solução abrangente, tanto em níve
 
 Essa solução é composta pela biblioteca de logs `Zap`, do Uber, além do `Promtail`, `Grafana Loki` e `Grafana`, formando um conjunto integrado para coleta, processamento, armazenamento e visualização de logs.
 
-#### 1. Aplicação
-
-#### 1. Infraestrutura
-
 ### Arquitetura
+A arquitetura proposta permite uma solução escalável e eficiente de observabilidade para logs. 
+O Promtail atua como um agente leve de coleta de logs, enquanto o Grafana Loki armazena e indexa os logs de forma otimizada. 
+O Grafana fornece uma interface rica para consulta e visualização, permitindo que desenvolvedores monitorem o sistema e identifiquem problemas rapidamente. 
+Essa arquitetura é especialmente adequada para ambientes de contêineres e sistemas distribuídos onde a observabilidade é essencial para manter a estabilidade e a saúde do sistema.
+
 ![Architecture](documentation/images/architecture.png)
+
+#### Componentes
+1. **`Application (Aplicação)`**: A aplicação é o componente que gera logs em resposta às requisições dos usuários. Esses logs contêm informações essenciais para monitoramento, depuração e auditoria do sistema.
+
+2. **`Promtail Agent`**: O Promtail atua como um agente de coleta de logs. Ele é responsável por:
+   - Coletar Logs da Aplicação: O Promtail acessa os logs gerados pela aplicação (no caso de contêineres, ele pode ler diretamente dos logs do contêiner).
+   - Enviar Logs para o Grafana Loki: Após coletar os logs, o Promtail os envia para o Grafana Loki, onde serão armazenados e indexados.
+
+3. **`Grafana Loki`**: O Grafana Loki é uma solução de armazenamento de logs otimizada para funcionar junto com o Grafana. Ele atua como um sistema de banco de dados para logs, sendo responsável por:
+   - Armazenar e Indexar os Logs: Loki recebe os logs enviados pelo Promtail, indexa os campos principais e armazena os logs de forma eficiente.
+   Fornecer Logs para o Grafana: O Loki permite que o Grafana realize consultas nos logs armazenados para exibição e análise.
+
+4. **`Grafana`**: O Grafana é a interface de visualização onde os desenvolvedores podem:
+   - Consultar e Visualizar os Logs: O Grafana permite que desenvolvedores façam buscas específicas nos logs (como por trace_id, service_name e level) para monitoramento e depuração.
+   - Criar Painéis de Observabilidade: Além dos logs, o Grafana pode integrar outras métricas e fontes de dados para fornecer uma visão completa da saúde e performance do sistema.
 
 ### Visualização de logs
 O log exibido no Grafana mostra informações detalhadas sobre as requisição feitas à aplicação. 
