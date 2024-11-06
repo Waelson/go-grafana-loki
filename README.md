@@ -51,8 +51,20 @@ A aplicação está configurada para ser executada com Docker Compose. Para inic
 docker-compose up --build
 ```
 
+#### Criando e acessando o dashboard
+Acesse o [Grafana](http://localhost:3000) e, em seguida, vá até o menu e selecione a opção Dashboards.
+Clique em  **New > Import**. Em seguida, copie o conteúdo do arquivo `config/dashboard`, cole no campo de texto fornecido e clique em **Load**. 
+Na próxima tela, finalize o processo clicando em **Import**.
+
+#### Gerando logs
+A aplicação de demonstração possui dois endpoints que permitem a geração de logs. Para testá-los, clique nos links a seguir:
+
+- [Home](http://localhost:8080): Acessa a página principal e gera um log associado a essa rota.
+- [Health](http://localhost:8080/health): Verifica o status de saúde da aplicação e gera um log correspondente.
+Esses endpoints ajudam a simular o comportamento da aplicação e a verificar a captura de logs no sistema de observabilidade.
+
 ### Promtail
-O Promtail permite realizar experimentos, validações e alterações nos logs enviados para o Grafana Loki sem a 
+O Promtail permite realizar experimentos, validações e alterações nos logs enviadoss para o Grafana Loki sem a 
 necessidade de inicializar o servidor. Para instalar o Promtail localmente, utilize o seguinte comando:
 
 ```bash
