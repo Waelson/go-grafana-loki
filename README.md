@@ -14,6 +14,18 @@ Essa solução é composta pela biblioteca de logs `Zap`, do Uber, além do `Pro
 ![Architecture](documentation/images/architecture.png)
 
 ### Visualização de logs
+O log exibido no Grafana mostra informações detalhadas sobre as requisição feitas à aplicação. 
+Cada entrada de log está estruturada e inclui os seguintes campos, que facilitam a análise e rastreamento de eventos na aplicação:
+
+- **`container`**: Identifica o contêiner onde a aplicação está rodando, neste caso, go-application.
+- **`instance_id`**: Um identificador único da instância, como i-d97942ac0614, que ajuda a rastrear eventos em instâncias específicas dentro de um ambiente distribuído.
+- **`ip`**: Endereço IP da instância, como 172.18.0.5, que facilita a localização da origem do log em redes complexas.
+- **`job`**: Nome do job de coleta configurado no Promtail, aqui definido como container_logs, indicando a fonte dos logs para categorização e filtragem.
+- **`logstream`**: Identifica o fluxo de log, neste caso stdout, que indica que a saída padrão está sendo usada para captura dos logs.
+- **`request_id`**: Um identificador único para a requisição, ebd3e1b0-44ce-4466-b698-869f1a7bc53c, que permite correlacionar todas as entradas de log associadas a uma única requisição.
+- **`service_name`**: Nome do serviço, go-application, que ajuda a identificar a origem do log quando múltiplos serviços estão sendo monitorados.
+- **`span_id e trace_id`**: Identificadores para rastreamento distribuído, como a8454b46-b96a-4afc-9fed-e125e54185ba (span) e df724b80-8534-4dcc-b0cb-ad1202388e33 (trace). Esses identificadores permitem rastrear a jornada completa de uma requisição através de diferentes serviços e componentes.
+
 ![Dashboard](documentation/images/dashboard.png)
 
 ### Executando
