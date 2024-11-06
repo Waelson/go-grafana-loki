@@ -1,1 +1,2 @@
-{"message":"log message","level":"info","thread":"main"}
+{"level":"INFO","timestamp":"2024-11-06T01:18:58.5055770Z","caller":"api/main.go:19","msg":"Servidor rodando em http://localhost:8080"}
+{"level":"INFO","timestamp":"2024-11-06T01:19:10.9352370Z","caller":"handlers/controllers.go:26","msg":"Health route accessed","trace_id":"4b642a48-cc35-4c96-b43a-df0665824ee5","request_id":"770384c4-b31a-40a5-ace3-bd314bd19eaf","instance_id":"i-MacBook-Pro-de-Waelson.local","span_id":"2be4b6ff-4bbc-49ef-8e18-2562e1804227"}

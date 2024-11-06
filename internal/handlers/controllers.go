@@ -1,43 +1,29 @@
 package handlers
 
 import (
-	"encoding/json"
+	"github.com/Waelson/go-grafana-loki/internal/logger"
 	"github.com/go-chi/chi/v5"
-	"log"
 	"net/http"
 )
 
-type LogMessage struct {
-	App     string `json:"app"`
-	Level   string `json:"level"`
-	Message string `json:"message"`
+type Controller struct {
+	log log.Logger
 }
 
-func logJSON(app, level, message string) {
-	logMsg := LogMessage{App: app, Level: level, Message: message}
-	jsonData, err := json.Marshal(logMsg)
-	if err != nil {
-		log.Printf("Error marshalling JSON log: %v", err)
-		return
-	}
-	log.Println(string(jsonData))
-}
+func NewController(log log.Logger) *Controller {
 
-type Controller struct{}
-
-func NewController() *Controller {
-	return &Controller{}
+	return &Controller{log}
 }
 
 func (c *Controller) Home(w http.ResponseWriter, r *http.Request) {
 	msg := "Home route accessed"
-	logJSON("golang-app", "info", msg)
+	c.log.InfoCtx(r.Context(), msg)
 	w.Write([]byte(msg))
 }
 
 func (c *Controller) Health(w http.ResponseWriter, r *http.Request) {
 	msg := "Health route accessed"
-	logJSON("golang-app", "info", msg)
+	c.log.InfoCtx(r.Context(), msg)
 	w.Write([]byte(msg))
 }
 

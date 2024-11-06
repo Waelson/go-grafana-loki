@@ -1,29 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"github.com/Waelson/go-grafana-loki/internal/handlers"
-	"log"
-	"net/http"
-	"time"
-
+	"github.com/Waelson/go-grafana-loki/internal/logger"
+	"github.com/Waelson/go-grafana-loki/internal/middleware"
 	"github.com/go-chi/chi/v5"
+	"net/http"
 )
 
 func main() {
-	controller := handlers.NewController()
-
-	go func() {
-		for {
-			fmt.Println(`{"message":"log message","level":"info","thread":"main"}`)
-			time.Sleep(1 * time.Second)
-		}
-	}()
+	log := log.NewZapLogger()
+	controller := handlers.NewController(log)
 
 	r := chi.NewRouter()
-	// r.Use(middleware.Logger)
+	r.Use(middleware.NewContextMiddleware())
 	r.Mount("/", controller.Routes())
 
-	log.Println("Servidor rodando em http://localhost:8080")
+	log.Info("Servidor rodando em http://localhost:8080")
 	http.ListenAndServe(":8080", r)
 }

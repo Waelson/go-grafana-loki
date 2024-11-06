@@ -30,16 +30,23 @@ scrape_configs:
     pipeline_stages:
       - json:
           expressions:
-            message:    message
+            msg:    msg
             level:    level
-            thread: thread
+            trace_id: trace_id
+            span_id: span_id
+            request_id: request_id
+            instance_id: instance_id
+            timestamp: timestamp
       - labels:
-          thread:
+          trace_id:
+          span_id:
           level:
+          request_id:
+          instance_id:
 
       - template:
           source: new_key
-          template: '[level={{ .level }} threadName={{ .thread }}] > {{ .message }}'
+          template: '[{{.timestamp}}] [{{.level}}] {{ .msg }}'
       - output:
           source: new_key
 
