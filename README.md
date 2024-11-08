@@ -1,5 +1,7 @@
 # Go Application + Uber Zap + Promtail + Loki + Grafana
 
+![technology Go](https://img.shields.io/badge/technology-go-blue.svg)
+--- 
 
 ### Solução
 A proposta deste projeto é desenvolver uma solução abrangente, tanto em nível de aplicação quanto em nível de infraestrutura, que implemente as melhores práticas de observabilidade (o11y) no que diz respeito ao pilar de Logs.
