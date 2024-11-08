@@ -3,12 +3,12 @@
 ![technology Go](https://img.shields.io/badge/technology-go-blue.svg)
 --- 
 
-### Solução
+## Solução
 A proposta deste projeto é desenvolver uma solução abrangente, tanto em nível de aplicação quanto em nível de infraestrutura, que implemente as melhores práticas de observabilidade (o11y) no que diz respeito ao pilar de Logs.
 
 Essa solução é composta pela biblioteca de logs `Zap`, do Uber, além do `Promtail`, `Grafana Loki` e `Grafana`, formando um conjunto integrado para coleta, processamento, armazenamento e visualização de logs.
 
-### Arquitetura
+## Arquitetura
 A arquitetura proposta permite uma solução escalável e eficiente de observabilidade para logs. 
 O Promtail atua como um agente leve de coleta de logs, enquanto o Grafana Loki armazena e indexa os logs de forma otimizada. 
 O Grafana fornece uma interface rica para consulta e visualização, permitindo que desenvolvedores monitorem o sistema e identifiquem problemas rapidamente. 
@@ -16,7 +16,7 @@ Essa arquitetura é especialmente adequada para ambientes de contêineres e sist
 
 ![Architecture](documentation/images/architecture.png)
 
-#### Componentes
+### Componentes
 1. **`Application (Aplicação)`**: A aplicação é o componente que gera logs em resposta às requisições dos usuários. Esses logs contêm informações essenciais para monitoramento, depuração e auditoria do sistema.
 
 2. **`Promtail Agent`**: O Promtail atua como um agente de coleta de logs. Ele é responsável por:
@@ -31,7 +31,7 @@ Essa arquitetura é especialmente adequada para ambientes de contêineres e sist
    - `Consultar e Visualizar os Logs`: O Grafana permite que desenvolvedores façam buscas específicas nos logs (como por trace_id, service_name e level) para monitoramento e depuração.
    - `Criar Painéis de Observabilidade`: Além dos logs, o Grafana pode integrar outras métricas e fontes de dados para fornecer uma visão completa da saúde e performance do sistema.
 
-### Visualização de logs
+## Visualização de logs
 O log exibido no Grafana mostra informações detalhadas sobre as requisição feitas à aplicação. 
 Cada entrada de log está estruturada e inclui os seguintes campos, que facilitam a análise e rastreamento de eventos na aplicação:
 
@@ -46,26 +46,26 @@ Cada entrada de log está estruturada e inclui os seguintes campos, que facilita
 
 ![Dashboard](documentation/images/dashboard.png)
 
-### Executando
+## Executando
 A aplicação está configurada para ser executada com Docker Compose. Para iniciá-la, entre no diretório raiz da aplicação e execute o seguinte comando:
 
 ```bash
 docker-compose up --build
 ```
 
-#### Criando e acessando o dashboard
+### Criando e acessando o dashboard
 Acesse o [Grafana](http://localhost:3000) e, em seguida, vá até o menu e selecione a opção Dashboards.
 Clique em  **New > Import**. Em seguida, copie o conteúdo do arquivo `config/dashboard`, cole no campo de texto fornecido e clique em **Load**. 
 Na próxima tela, finalize o processo clicando em **Import**.
 
-#### Gerando logs
+### Gerando logs
 A aplicação de demonstração possui dois endpoints que permitem a geração de logs. Para testá-los, clique nos links a seguir:
 
 - [Home](http://localhost:8080): Acessa a página principal e gera um log associado a essa rota.
 - [Health](http://localhost:8080/health): Verifica o status de saúde da aplicação e gera um log correspondente.
 Esses endpoints ajudam a simular o comportamento da aplicação e a verificar a captura de logs no sistema de observabilidade.
 
-### Promtail
+## Configurações do Promtail
 O Promtail permite realizar experimentos, validações e alterações nos logs enviadoss para o Grafana Loki sem a 
 necessidade de inicializar o servidor. Para instalar o Promtail localmente, utilize o seguinte comando:
 
@@ -81,13 +81,13 @@ cat log.txt | promtail --config.file ./promtail-config.yaml --stdin --dry-run --
 
 Este comando lê o conteúdo de `log.txt` e executa o Promtail em modo de teste (--dry-run), exibindo informações detalhadas sobre o processamento dos logs sem enviá-los ao Loki. Assim, você pode inspecionar e ajustar o formato dos logs antes de enviá-los para produção.
 
-#### Explicação
+### Explicação
 - **`--stdin`**: Lê a entrada diretamente do stdin em vez de um arquivo.
 - **`--dry-run`**: Executa o Promtail em modo de teste, o que significa que os logs são processados, mas não enviados ao Loki.
 - **`--inspect`**: Fornece uma saída detalhada sobre o processamento de cada entrada de log, ajudando a identificar problemas de formatação ou incompatibilidades de configuração.
   Essa configuração permite que você inspecione e ajuste o formato dos seus logs localmente antes de enviá-los para o ambiente de produção do Loki.
 
-#### Exemplo de Fluxo de Trabalho
+### Exemplo de Fluxo de Trabalho
 1. Edite `config/log.txt` para incluir logs de exemplo.
 2. Ajuste `promtail-config.yaml` conforme necessário para análise e rotulagem dos logs.
 3. Execute o comando acima para ver a saída detalhada e garantir que tudo esteja configurado corretamente.
